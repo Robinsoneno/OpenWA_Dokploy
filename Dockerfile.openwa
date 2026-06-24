@@ -1,0 +1,43 @@
+# Base oficial Node.js
+FROM node:20-slim
+
+# Instalar dependências necessárias para Chromium/Puppeteer
+RUN apt-get update && apt-get install -y \
+    chromium \
+    chromium-common \
+    chromium-driver \
+    fonts-liberation \
+    libatk-bridge2.0-0 \
+    libatk1.0-0 \
+    libcups2 \
+    libdrm2 \
+    libgbm1 \
+    libgtk-3-0 \
+    libnspr4 \
+    libnss3 \
+    libx11-xcb1 \
+    libxcomposite1 \
+    libxdamage1 \
+    libxfixes3 \
+    libxrandr2 \
+    libxshmfence1 \
+    wget \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Definir variáveis de ambiente
+ENV WA_EXECUTABLE_PATH=/usr/bin/chromium
+ENV WA_USE_CHROME=true
+ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
+ENV PUPPETEER_TIMEOUT=60000
+
+WORKDIR /usr/src/app
+
+COPY package*.json ./
+RUN npm install && npm install @open-wa/wa-automate@latest
+
+COPY . .
+
+EXPOSE 3001
+
+CMD ["npm", "start"]

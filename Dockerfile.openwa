@@ -31,13 +31,19 @@ ENV WA_USE_CHROME=true
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
 ENV PUPPETEER_TIMEOUT=60000
 
+# Criar diretório de trabalho
 WORKDIR /usr/src/app
 
+# Copiar package.json e instalar dependências
 COPY package*.json ./
-RUN npm install && npm install @open-wa/wa-automate@latest
+RUN npm install
 
+# Copiar código restante
 COPY . .
 
+# Expor porta usada pelo OpenWA
 EXPOSE 3001
+EXPOSE 3002
 
+# Comando de inicialização
 CMD ["npm", "start"]

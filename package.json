@@ -1,14 +1,10 @@
 {
-  "sessionId": "teste",
-  "engine": "baileys",
-  "multiDevice": true,
-  "qrTimeout": 0,
-  "authTimeout": 300,
-  "logConsole": true,
-  "debug": true,
-  "restApi": true,
-  "dashboard": true,
-  "restApiPort": 8001,
-  "dashboardPort": 8002,
-  "useChrome": true
+  "name": "openwa-test",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "@open-wa/wa-automate": "latest"
+  }
 }

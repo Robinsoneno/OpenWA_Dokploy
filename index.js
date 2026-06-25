@@ -13,7 +13,7 @@ let config = {
   dashboard: true,
   restApiPort: 8001,
   dashboardPort: 8002,
-  // Não define executablePath nem useChrome – o Puppeteer usará o Chromium baixado
+  // Não é necessário definir executablePath, pois a variável PUPPETEER_EXECUTABLE_PATH será usada
   puppeteerOptions: {
     args: [
       '--no-sandbox',

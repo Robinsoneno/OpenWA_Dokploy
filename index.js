@@ -1,7 +1,6 @@
 const { create } = require('@open-wa/wa-automate');
 const fs = require('fs');
 
-// Configuração padrão com executablePath forçado
 let config = {
   sessionId: "teste",
   engine: "baileys",
@@ -14,16 +13,14 @@ let config = {
   dashboard: true,
   restApiPort: 8001,
   dashboardPort: 8002,
-  // Força o caminho do Chromium do sistema
-  executablePath: '/usr/bin/chromium',
-  // Argumentos do Puppeteer (incluindo --no-crashpad)
+  // Não define executablePath nem useChrome – o Puppeteer usará o Chromium baixado
   puppeteerOptions: {
     args: [
       '--no-sandbox',
       '--disable-dev-shm-usage',
       '--disable-gpu',
       '--headless',
-      '--no-crashpad'   // ← ESSENCIAL para evitar erro do crashpad
+      '--no-crashpad'
     ]
   }
 };
@@ -33,7 +30,7 @@ try {
   config = { ...config, ...fileConfig };
   console.log('✅ Configuração carregada de openwa.config.json');
 } catch (e) {
-  console.log('ℹ️ Arquivo openwa.config.json não encontrado ou inválido. Usando configuração padrão.');
+  console.log('ℹ️ Usando configuração padrão.');
 }
 
 create(config)

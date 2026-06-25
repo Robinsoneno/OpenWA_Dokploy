@@ -15,8 +15,8 @@ services:
       - ./sessions:/usr/src/app/sessions
       - ./media:/usr/src/app/media
     ports:
-      - "3001:3001"   # API REST
-      - "3002:3002"   # Dashboard Web
+      - "8001:8001"   # API REST (se ativada)
+      - "8002:8002"   # Dashboard Web (se ativada)
     tmpfs:
       - /dev/shm:size=1g
     restart: unless-stopped

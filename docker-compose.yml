@@ -7,16 +7,17 @@ services:
       dockerfile: Dockerfile.openwa
     container_name: openwa-test
     environment:
-      WA_EXECUTABLE_PATH: /usr/bin/chromium
-      WA_USE_CHROME: "true"
-      WA_CHROME_ARGS: "--no-sandbox --disable-dev-shm-usage --disable-gpu --headless"
+      # Remova as três linhas abaixo
+      # WA_EXECUTABLE_PATH: /usr/bin/chromium
+      # WA_USE_CHROME: "true"
+      # WA_CHROME_ARGS: "--no-sandbox --disable-dev-shm-usage --disable-gpu --headless"
     volumes:
       - ./openwa.config.json:/usr/src/app/openwa.config.json:ro
       - ./sessions:/usr/src/app/sessions
       - ./media:/usr/src/app/media
     ports:
-      - "8001:8001"   # API REST (se ativada)
-      - "8002:8002"   # Dashboard Web (se ativada)
+      - "8001:8001"
+      - "8002:8002"
     tmpfs:
       - /dev/shm:size=1g
     restart: unless-stopped

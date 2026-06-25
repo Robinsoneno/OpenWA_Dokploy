@@ -16,9 +16,15 @@ let config = {
   dashboardPort: 8002,
   // Força o caminho do Chromium do sistema
   executablePath: '/usr/bin/chromium',
-  // Ignora argumentos adicionais do Puppeteer para evitar conflitos
+  // Argumentos do Puppeteer (incluindo --no-crashpad)
   puppeteerOptions: {
-    args: ['--no-sandbox', '--disable-dev-shm-usage', '--disable-gpu', '--headless']
+    args: [
+      '--no-sandbox',
+      '--disable-dev-shm-usage',
+      '--disable-gpu',
+      '--headless',
+      '--no-crashpad'   // ← ESSENCIAL para evitar erro do crashpad
+    ]
   }
 };
 

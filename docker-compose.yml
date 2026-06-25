@@ -5,10 +5,10 @@ services:
       dockerfile: Dockerfile
     container_name: whatsapp-baileys
     environment:
-      - PORT=3000
+      - PORT=3001
       - NODE_ENV=production
     volumes:
       - ./sessions:/usr/src/app/sessions
     ports:
-      - "3000:3000"
+      - "3001:3001"
     restart: unless-stopped

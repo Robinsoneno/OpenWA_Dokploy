@@ -1,18 +1,14 @@
-version: "3.8"
-
 services:
-  openwa:
+  whatsapp-api:
     build:
       context: .
-      dockerfile: Dockerfile.openwa
-    container_name: openwa-test
+      dockerfile: Dockerfile
+    container_name: whatsapp-baileys
+    environment:
+      - PORT=3000
+      - NODE_ENV=production
     volumes:
-      - ./openwa.config.json:/usr/src/app/openwa.config.json:ro
       - ./sessions:/usr/src/app/sessions
-      - ./media:/usr/src/app/media
     ports:
-      - "8001:8001"
-      - "8002:8002"
-    tmpfs:
-      - /dev/shm:size=1g
+      - "3000:3000"
     restart: unless-stopped

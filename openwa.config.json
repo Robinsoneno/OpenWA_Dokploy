@@ -5,5 +5,9 @@
   "qrTimeout": 0,
   "authTimeout": 300,
   "logConsole": true,
-  "debug": true
+  "debug": true,
+  "restApi": true,
+  "dashboard": true,
+  "restApiPort": 8001,
+  "dashboardPort": 8002
 }

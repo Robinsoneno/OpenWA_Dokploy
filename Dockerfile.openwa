@@ -1,7 +1,8 @@
 FROM node:20-slim
 
-# Dependências de sistema necessárias para o Chromium baixado pelo Puppeteer
+# Instala o Chromium do sistema (garantido)
 RUN apt-get update && apt-get install -y \
+    chromium \
     fonts-liberation \
     libatk-bridge2.0-0 \
     libatk1.0-0 \
@@ -21,20 +22,24 @@ RUN apt-get update && apt-get install -y \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
-# Criar usuário não-root
+# Define variáveis para o Puppeteer usar o Chromium do sistema
+ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
+ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
+
+# Cria usuário não-root
 RUN groupadd -r openwa && useradd -r -g openwa openwa
 WORKDIR /usr/src/app
 RUN chown openwa:openwa /usr/src/app
 
-# Copiar package.json e instalar dependências (isso fará o Puppeteer baixar o Chromium)
+# Copia e instala dependências (sem baixar Chromium)
 COPY package*.json ./
 RUN npm install
 
-# Copiar o código fonte
+# Copia o código e ajusta permissões
 COPY . .
 RUN chown -R openwa:openwa /usr/src/app
 
-# Trocar para usuário não-root
+# Troca para o usuário não-root
 USER openwa
 
 EXPOSE 8001 8002

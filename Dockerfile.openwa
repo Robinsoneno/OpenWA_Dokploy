@@ -1,14 +1,7 @@
 FROM node:20-slim
 
-# Instala o Google Chrome Stable (não o Chromium)
+# Instala apenas as dependências de sistema necessárias para o Chromium
 RUN apt-get update && apt-get install -y \
-    wget \
-    curl \
-    gnupg \
-    && wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
-    && echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list \
-    && apt-get update && apt-get install -y \
-    google-chrome-stable \
     fonts-liberation \
     libatk-bridge2.0-0 \
     libatk1.0-0 \
@@ -24,23 +17,24 @@ RUN apt-get update && apt-get install -y \
     libxfixes3 \
     libxrandr2 \
     libxshmfence1 \
+    wget \
+    curl \
     && rm -rf /var/lib/apt/lists/*
-
-# Define a variável para o Puppeteer usar o Google Chrome
-ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
-ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome-stable
 
 # Cria usuário não-root
 RUN groupadd -r openwa && useradd -r -g openwa openwa
 WORKDIR /usr/src/app
 RUN chown openwa:openwa /usr/src/app
 
+# Copia package.json e instala dependências (isso fará o Puppeteer baixar o Chromium)
 COPY package*.json ./
 RUN npm install
 
+# Copia o código fonte
 COPY . .
 RUN chown -R openwa:openwa /usr/src/app
 
+# Troca para o usuário não-root
 USER openwa
 
 EXPOSE 8001 8002

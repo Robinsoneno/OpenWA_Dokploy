@@ -25,6 +25,9 @@ RUN apt-get update && apt-get install -y \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
+# Criar usuário não-root para segurança
+RUN groupadd -r openwa && useradd -r -g openwa openwa
+
 # Definir variáveis de ambiente
 ENV WA_EXECUTABLE_PATH=/usr/bin/chromium
 ENV WA_USE_CHROME=true
@@ -41,7 +44,13 @@ RUN npm install
 # Copiar código restante
 COPY . .
 
-# Expor porta usada pelo OpenWA
+# Ajustar permissões para o usuário openwa (necessário para gravar sessions/media)
+RUN chown -R openwa:openwa /usr/src/app
+
+# Mudar para usuário não-root
+USER openwa
+
+# Expor portas usadas pelo OpenWA (API REST e Dashboard)
 EXPOSE 3001
 EXPOSE 3002
 

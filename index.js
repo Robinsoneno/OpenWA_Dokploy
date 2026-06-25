@@ -13,13 +13,14 @@ let config = {
   dashboard: true,
   restApiPort: 8001,
   dashboardPort: 8002,
+  // Usa o Chromium do sistema na imagem zenika/alpine-chrome
+  executablePath: '/usr/bin/chromium-browser',
   puppeteerOptions: {
     args: [
       '--no-sandbox',
       '--disable-dev-shm-usage',
       '--disable-gpu',
-      '--headless',
-      '--no-crashpad'
+      '--headless'
     ]
   }
 };

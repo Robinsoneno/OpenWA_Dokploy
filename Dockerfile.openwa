@@ -1,30 +1,38 @@
-FROM zenika/alpine-chrome:latest
+FROM node:20-alpine
 
-# Instala Node.js e dependências adicionais
-USER root
+# Instala dependências e Chromium compatível
 RUN apk add --no-cache \
+    chromium \
+    nss \
+    freetype \
+    freetype-dev \
+    harfbuzz \
+    ca-certificates \
+    ttf-freefont \
     nodejs \
     npm \
     bash \
     curl \
-    wget
+    wget \
+    && rm -rf /var/cache/apk/*
 
-# Cria usuário para o app
+# Define variáveis para o Puppeteer
+ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
+ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
+
+# Cria usuário não-root
 RUN addgroup -g 1001 -S openwa && \
     adduser -u 1001 -S openwa -G openwa
 
 WORKDIR /usr/src/app
 RUN chown openwa:openwa /usr/src/app
 
-# Copia package.json e instala dependências
 COPY package*.json ./
 RUN npm install
 
-# Copia o código
 COPY . .
 RUN chown -R openwa:openwa /usr/src/app
 
-# Troca para o usuário não-root
 USER openwa
 
 EXPOSE 8001 8002

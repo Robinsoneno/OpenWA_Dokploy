@@ -6,7 +6,6 @@ services:
       context: .
       dockerfile: Dockerfile.openwa
     container_name: openwa-test
-    # Nenhuma variável de ambiente relacionada ao Chromium é necessária
     volumes:
       - ./openwa.config.json:/usr/src/app/openwa.config.json:ro
       - ./sessions:/usr/src/app/sessions

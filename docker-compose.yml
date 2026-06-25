@@ -6,11 +6,7 @@ services:
       context: .
       dockerfile: Dockerfile.openwa
     container_name: openwa-test
-    environment:
-      # Remova as três linhas abaixo
-      # WA_EXECUTABLE_PATH: /usr/bin/chromium
-      # WA_USE_CHROME: "true"
-      # WA_CHROME_ARGS: "--no-sandbox --disable-dev-shm-usage --disable-gpu --headless"
+    # environment:   ← remova esta linha e as que seguem
     volumes:
       - ./openwa.config.json:/usr/src/app/openwa.config.json:ro
       - ./sessions:/usr/src/app/sessions

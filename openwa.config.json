@@ -9,5 +9,6 @@
   "restApi": true,
   "dashboard": true,
   "restApiPort": 8001,
-  "dashboardPort": 8002
+  "dashboardPort": 8002,
+  "executablePath": "/usr/bin/chromium"
 }

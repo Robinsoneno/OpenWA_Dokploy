@@ -1,13 +1,9 @@
 {
-  "sessionId": "minha_sessao",
+  "sessionId": "teste",
   "engine": "baileys",
   "multiDevice": true,
   "qrTimeout": 0,
   "authTimeout": 300,
   "logConsole": true,
-  "debug": true,
-  "puppeteerOptions": {
-    "timeout": 120000,
-    "dumpio": true
-  }
+  "debug": true
 }

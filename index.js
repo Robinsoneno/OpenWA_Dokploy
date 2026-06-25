@@ -13,7 +13,8 @@ let config = {
   dashboard: true,
   restApiPort: 8001,
   dashboardPort: 8002,
-  // Não é necessário definir executablePath, pois a variável PUPPETEER_EXECUTABLE_PATH será usada
+  // FORÇA o Google Chrome explicitamente
+  executablePath: '/usr/bin/google-chrome-stable',
   puppeteerOptions: {
     args: [
       '--no-sandbox',

@@ -1,11 +1,8 @@
 # Base oficial Node.js
 FROM node:20-slim
 
-# Instalar dependências necessárias para Chromium/Puppeteer
+# Instalar dependências necessárias para Chromium/Puppeteer (sem o chromium em si)
 RUN apt-get update && apt-get install -y \
-    chromium \
-    chromium-common \
-    chromium-driver \
     fonts-liberation \
     libatk-bridge2.0-0 \
     libatk1.0-0 \
@@ -25,34 +22,21 @@ RUN apt-get update && apt-get install -y \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
-# Criar usuário não-root para segurança
+# Não defina PUPPETEER_SKIP_CHROMIUM_DOWNLOAD (ou defina como false)
+# ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=false
+
+# Criar usuário não-root
 RUN groupadd -r openwa && useradd -r -g openwa openwa
-
-# Definir variáveis de ambiente
-ENV WA_EXECUTABLE_PATH=/usr/bin/chromium
-ENV WA_USE_CHROME=true
-ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
-ENV PUPPETEER_TIMEOUT=60000
-
-# Criar diretório de trabalho
 WORKDIR /usr/src/app
+RUN chown openwa:openwa /usr/src/app
 
-# Copiar package.json e instalar dependências
 COPY package*.json ./
 RUN npm install
 
-# Copiar código restante
 COPY . .
-
-# Ajustar permissões para o usuário openwa (necessário para gravar sessions/media)
 RUN chown -R openwa:openwa /usr/src/app
 
-# Mudar para usuário não-root
 USER openwa
 
-# Expor portas usadas pelo OpenWA (API REST e Dashboard)
-EXPOSE 3001
-EXPOSE 3002
-
-# Comando de inicialização
+EXPOSE 8001 8002
 CMD ["npm", "start"]
